@@ -64,7 +64,21 @@ namespace Replicator {
 		/// <param name="position">Position of the spawned GameObject</param>
 		/// <param name="rotation">Rotation of the spawned GameObject</param>
 		/// <param name="parent">(optional) Parent of the spawned GameObject</param>
-		public GameObject Spawn(Vector3 position, Quaternion rotation, Transform parent = null) {
+		public GameObject Spawn(Vector3 position, Quaternion rotation, Transform parent = null)
+		{
+			GameObject spawned = Spawn(parent);
+			spawned.transform.position = position;
+			spawned.transform.rotation = rotation;
+			return spawned.gameObject;
+		}
+
+		public GameObject SpawnDefault(Transform parent = null)
+		{
+			return Spawn(Vector3.zero, Quaternion.identity, parent);
+		}
+		
+		public GameObject Spawn(Transform parent = null)
+		{
 			if(CanSpawn && !HasAvailableSpawnees()) Expand(GrowthStrategy.Single);
 			else if(CanGrow && !CanSpawn) Expand(growth);
 			GameObject spawned = GetObjectToSpawn();
@@ -74,8 +88,6 @@ namespace Replicator {
 			}
 
 			spawned.transform.SetParent(parent);
-			spawned.transform.position = position;
-			spawned.transform.rotation = rotation;
 
 			spawned.gameObject.SetActive(true);
 			TriggerSpawnHandlers(spawned);
