@@ -5,9 +5,11 @@ namespace Replicator {
 	public class ParticleSystemsCleanup : MonoBehaviour, IPooled {
 		[SerializeField, Tooltip(Strings.ParticlesResetTooltip)]
 		private ParticleSystemStopBehavior resetBehaviour = ParticleSystemStopBehavior.StopEmittingAndClear;
+
 		private ParticleSystem[] particleSystems;
 
-		private void Start() {
+		private void Awake()
+		{
 			particleSystems = GetComponentsInChildren<ParticleSystem>();
 		}
 
@@ -18,8 +20,10 @@ namespace Replicator {
 			}
 		}
 
-		public void OnSpawn() {
-			foreach(ParticleSystem particles in particleSystems) {
+		public void OnSpawn()
+		{
+			foreach (ParticleSystem particles in particleSystems)
+			{
 				if(particles.main.playOnAwake) particles.Play();
 			}
 		}

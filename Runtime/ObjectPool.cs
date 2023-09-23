@@ -71,6 +71,13 @@ namespace Replicator {
 			spawned.transform.rotation = rotation;
 			return spawned.gameObject;
 		}
+		
+		public GameObject Spawn(Vector3 position, Transform parent = null)
+		{
+			GameObject spawned = Spawn(parent);
+			spawned.transform.position = position;
+			return spawned.gameObject;
+		}
 
 		public GameObject SpawnDefault(Transform parent = null)
 		{
